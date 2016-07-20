@@ -1,0 +1,19 @@
+# Project crap
+target
+*.class
+.idea/
+.idea_modules/
+tmp/
+out/
+*.iws
+*.ipr
+*.iml
+
+# Random
+*.swp
+/*.csv
+
+# Binary files
+*.so
+*.dll
+*.exe
