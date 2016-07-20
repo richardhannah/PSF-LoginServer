@@ -20,16 +20,10 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file(".")).
   settings(commonSettings: _*).
-  aggregate(pslogin, common)
+  aggregate(pslogin)
 
 lazy val pslogin = (project in file("pslogin")).
   settings(commonSettings: _*).
   settings(
     name := "pslogin"
-  ).settings(packAutoSettings: _*).dependsOn(common)
-
-lazy val common = (project in file("common")).
-  settings(commonSettings: _*).
-  settings(
-    name := "common"
-  )
+  ).settings(packAutoSettings: _*).dependsOn(ProjectRef(uri("git://github.com/psforever/PSF-Common.git"), "common"))
