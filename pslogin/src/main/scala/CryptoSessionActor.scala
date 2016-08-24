@@ -1,21 +1,17 @@
 // Copyright (c) 2016 PSForever.net to present
-import java.net.{InetAddress, InetSocketAddress}
-
-import akka.actor.{Actor, ActorLogging, ActorRef, DiagnosticActorLogging, Identify, MDCContextAware}
-import net.psforever.crypto.CryptoInterface.{CryptoState, CryptoStateWithMAC}
-import net.psforever.crypto.CryptoInterface
-import net.psforever.packet._
-import scodec.Attempt.{Failure, Successful}
-import scodec.bits._
-import scodec.{Attempt, Codec, Err}
-import scodec.codecs.{bytes, uint16L, uint8L}
 import java.security.SecureRandom
 
+import akka.actor.MDCContextAware.Implicits._
+import akka.actor.{Actor, ActorRef, MDCContextAware}
+import net.psforever.crypto.CryptoInterface
+import net.psforever.crypto.CryptoInterface.CryptoStateWithMAC
+import net.psforever.packet._
 import net.psforever.packet.control.{ClientStart, ServerStart, TeardownConnection}
 import net.psforever.packet.crypto._
 import net.psforever.packet.game.PingMsg
 import org.log4s.MDC
-import MDCContextAware.Implicits._
+import scodec.Attempt.{Failure, Successful}
+import scodec.bits._
 
 sealed trait CryptoSessionAPI
 final case class DropCryptoSession() extends CryptoSessionAPI

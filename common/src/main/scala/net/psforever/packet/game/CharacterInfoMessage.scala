@@ -5,7 +5,6 @@ import net.psforever.packet.{GamePacketOpcode, Marshallable, PacketHelpers, Plan
 import scodec.Codec
 import scodec.codecs._
 
-
 case class PlanetSideZoneID(zoneId : Long)
 
 object PlanetSideZoneID {

@@ -9,7 +9,9 @@ import scodec.Attempt.{Failure, Successful}
 import scodec.bits._
 import org.log4s.MDC
 import MDCContextAware.Implicits._
+
 import net.psforever.types.ChatMessageType
+import service.{CharacterService, CharacterServiceImpl}
 
 class WorldSessionActor extends Actor with MDCContextAware {
   private[this] val log = org.log4s.getLogger
@@ -19,6 +21,9 @@ class WorldSessionActor extends Actor with MDCContextAware {
   var sessionId : Long = 0
   var leftRef : ActorRef = ActorRef.noSender
   var rightRef : ActorRef = ActorRef.noSender
+
+
+  var characterService : CharacterService = new CharacterServiceImpl()
 
   var clientKeepAlive : Cancellable = null
 
@@ -123,8 +128,9 @@ class WorldSessionActor extends Actor with MDCContextAware {
       sendRawResponse(hex"14 0F 00 00 00 10 27 00  00 C1 D8 7A 02 4B 00 26 5C B0 80 00 ")
 
       // NOTE: PlanetSideZoneID just chooses the background
-      sendResponse(PacketCoding.CreateGamePacket(0,
-        CharacterInfoMessage(PlanetSideZoneID(1), 0, PlanetSideGUID(0), true, 0)))
+
+      characterService.loadCharacters.foreach((gamePacket:GamePacket) => sendResponse(gamePacket))
+
     case msg @ CharacterRequestMessage(charId, action) =>
       log.info("Handling " + msg)
 
